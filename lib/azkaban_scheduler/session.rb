@@ -86,6 +86,39 @@ module AzkabanScheduler
       true
     end
 
+    def get_project_id(project_name)
+      result = fetch_project_flows(project_name)
+      result['projectId']
+    end
+
+    def list_flow_ids(project_name)
+      result = fetch_project_flows(project_name)
+      result['flows'].map{ |flow| flow['flowId'] }
+    end
+
+    def fetch_project_flows(project_name)
+      response = @client.get('/manager', {
+        'session.id' => @id,
+        'ajax' => 'fetchprojectflows',
+        'project' => project_name,
+      })
+      response.error! unless response.kind_of?(Net::HTTPSuccess)
+      JSON.parse(response.body)
+    end
+
+    def fetch_flow_executions(project_name, flow_id, offset=0, limit=10)
+      response = @client.get('/manager', {
+        'session.id' => @id,
+        'ajax' => 'fetchFlowExecutions',
+        'project' => project_name,
+        'flow' => flow_id,
+        'start' => offset,
+        'length' => limit,
+      })
+      response.error! unless response.kind_of?(Net::HTTPSuccess)
+      JSON.parse(response.body)
+    end
+
     def list_schedules
       response = @client.post('/schedule', { 'ajax' => 'loadFlow' }, session_id_cookie)
       response.error! unless response.kind_of?(Net::HTTPSuccess)
