@@ -1,0 +1,332 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: <URL>/manager
+    body:
+      encoding: US-ASCII
+      string: session.id=b0777d04-8efe-4648-9bad-fd8ef7436a65&action=create&name=Azkaban_Scheduler_Test&description=Used+by+the+test+suite
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - Ruby
+      Content-Type:
+      - application/x-www-form-urlencoded
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Mon, 15 Sep 2014 17:27:45 GMT
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - close
+      P3p:
+      - CP="NOI DSP COR NID ADMa OPTa OUR NOR"
+    body:
+      encoding: US-ASCII
+      string: '{"status":"success","path":"manager?project=Azkaban_Scheduler_Test","action":"redirect"}'
+    http_version:
+  recorded_at: Mon, 15 Sep 2014 17:27:45 GMT
+- request:
+    method: post
+    uri: <URL>/manager
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        LS0tLS0tLS0tLS0tLVJ1YnlNdWx0aXBhcnRQb3N0DQpDb250ZW50LURpc3Bv
+        c2l0aW9uOiBmb3JtLWRhdGE7IG5hbWU9InNlc3Npb24uaWQiDQoNCmIwNzc3
+        ZDA0LThlZmUtNDY0OC05YmFkLWZkOGVmNzQzNmE2NQ0KLS0tLS0tLS0tLS0t
+        LVJ1YnlNdWx0aXBhcnRQb3N0DQpDb250ZW50LURpc3Bvc2l0aW9uOiBmb3Jt
+        LWRhdGE7IG5hbWU9ImFqYXgiDQoNCnVwbG9hZA0KLS0tLS0tLS0tLS0tLVJ1
+        YnlNdWx0aXBhcnRQb3N0DQpDb250ZW50LURpc3Bvc2l0aW9uOiBmb3JtLWRh
+        dGE7IG5hbWU9InByb2plY3QiDQoNCkF6a2FiYW5fU2NoZWR1bGVyX1Rlc3QN
+        Ci0tLS0tLS0tLS0tLS1SdWJ5TXVsdGlwYXJ0UG9zdA0KQ29udGVudC1EaXNw
+        b3NpdGlvbjogZm9ybS1kYXRhOyBuYW1lPSJmaWxlIjsgZmlsZW5hbWU9ImZp
+        bGUuemlwIg0KQ29udGVudC1MZW5ndGg6IDE1Mg0KQ29udGVudC1UeXBlOiBh
+        cHBsaWNhdGlvbi96aXANCkNvbnRlbnQtVHJhbnNmZXItRW5jb2Rpbmc6IGJp
+        bmFyeQ0KDQpQSwMEFAAAAAgAdmsvReVaWxgkAAAAKAAAAAkAAABmaXJzdC5q
+        b2IrqSxItU3Oz81NzEvhgtK2qckZ+QpKGak5OfkK5flFOSlKXABQSwECNAMU
+        AAAACAB2ay9F5VpbGCQAAAAoAAAACQAAAAAAAAABAAAApIEAAAAAZmlyc3Qu
+        am9iUEsFBgAAAAABAAEANwAAAEsAAAAAAA0KLS0tLS0tLS0tLS0tLVJ1YnlN
+        dWx0aXBhcnRQb3N0LS0NCg0K
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - Ruby
+      Content-Type:
+      - multipart/form-data; boundary=-----------RubyMultipartPost
+      Content-Length:
+      - '693'
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Mon, 15 Sep 2014 17:27:46 GMT
+      Content-Type:
+      - application/json
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - close
+      Vary:
+      - Accept-Encoding
+      P3p:
+      - CP="NOI DSP COR NID ADMa OPTa OUR NOR"
+    body:
+      encoding: US-ASCII
+      string: |-
+        {
+          "projectId" : "135",
+          "version" : "1"
+        }
+    http_version:
+  recorded_at: Mon, 15 Sep 2014 17:27:46 GMT
+- request:
+    method: post
+    uri: <URL>/schedule
+    body:
+      encoding: US-ASCII
+      string: ajax=scheduleFlow&project=Azkaban_Scheduler_Test&projectName=Azkaban_Scheduler_Test&projectId=135&flow=first&disabled=%5B%5D&period=6h&scheduleTime=09%2C35%2CPM%2CUTC&scheduleDate=09%2F10%2F2014&is_recurring=on&concurrentOption=skip&failureEmailsOverride=true&successEmailsOverride=false&failureAction=finishCurrent&failureEmails=azkaban-scheduler-test%40localhost&successEmails=&notifyFailureFirst=false&notifyFailureLast=false
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - Ruby
+      Content-Type:
+      - application/x-www-form-urlencoded
+      Cookie:
+      - azkaban.browser.session.id=b0777d04-8efe-4648-9bad-fd8ef7436a65
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Mon, 15 Sep 2014 17:27:46 GMT
+      Content-Type:
+      - application/json
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - close
+      Vary:
+      - Accept-Encoding
+      P3p:
+      - CP="NOI DSP COR NID ADMa OPTa OUR NOR"
+    body:
+      encoding: US-ASCII
+      string: |-
+        {
+          "message" : "Azkaban_Scheduler_Test.first scheduled.",
+          "status" : "success"
+        }
+    http_version:
+  recorded_at: Mon, 15 Sep 2014 17:27:46 GMT
+- request:
+    method: post
+    uri: <URL>/schedule
+    body:
+      encoding: US-ASCII
+      string: ajax=loadFlow
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - Ruby
+      Content-Type:
+      - application/x-www-form-urlencoded
+      Cookie:
+      - azkaban.browser.session.id=b0777d04-8efe-4648-9bad-fd8ef7436a65
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Mon, 15 Sep 2014 17:27:46 GMT
+      Content-Type:
+      - application/json
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - close
+      Vary:
+      - Accept-Encoding
+      P3p:
+      - CP="NOI DSP COR NID ADMa OPTa OUR NOR"
+    body:
+      encoding: US-ASCII
+      string: |-
+        {
+          "items" : [ {
+            "history" : false,
+            "time" : 1410384900000,
+            "scheduleid" : 2198,
+            "stats" : {
+              "min" : 0,
+              "max" : 0,
+              "average" : 0
+            },
+            "length" : 3600000,
+            "projectname" : "Azkaban_Scheduler_Test",
+            "period" : 21600000,
+            "flowname" : "first"
+          } ]
+        }
+    http_version:
+  recorded_at: Mon, 15 Sep 2014 17:27:46 GMT
+- request:
+    method: post
+    uri: <URL>/schedule
+    body:
+      encoding: US-ASCII
+      string: ajax=loadFlow
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - Ruby
+      Content-Type:
+      - application/x-www-form-urlencoded
+      Cookie:
+      - azkaban.browser.session.id=b0777d04-8efe-4648-9bad-fd8ef7436a65
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Mon, 15 Sep 2014 17:27:46 GMT
+      Content-Type:
+      - application/json
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - close
+      Vary:
+      - Accept-Encoding
+      P3p:
+      - CP="NOI DSP COR NID ADMa OPTa OUR NOR"
+    body:
+      encoding: US-ASCII
+      string: |-
+        {
+          "items" : [ {
+            "history" : false,
+            "time" : 1410384900000,
+            "scheduleid" : 2198,
+            "stats" : {
+              "min" : 0,
+              "max" : 0,
+              "average" : 0
+            },
+            "length" : 3600000,
+            "projectname" : "Azkaban_Scheduler_Test",
+            "period" : 21600000,
+            "flowname" : "first"
+          } ]
+        }
+    http_version:
+  recorded_at: Mon, 15 Sep 2014 17:27:46 GMT
+- request:
+    method: post
+    uri: <URL>/schedule
+    body:
+      encoding: US-ASCII
+      string: action=removeSched&scheduleId=2198
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - Ruby
+      Content-Type:
+      - application/x-www-form-urlencoded
+      Cookie:
+      - azkaban.browser.session.id=b0777d04-8efe-4648-9bad-fd8ef7436a65
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Mon, 15 Sep 2014 17:27:47 GMT
+      Content-Type:
+      - application/json
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - close
+      Vary:
+      - Accept-Encoding
+      Expires:
+      - Thu, 01-Jan-1970 00:00:00 GMT
+      Set-Cookie:
+      - azkaban.success.message="flow first removed from Schedules.";Path=/
+      P3p:
+      - CP="NOI DSP COR NID ADMa OPTa OUR NOR"
+    body:
+      encoding: US-ASCII
+      string: |-
+        {
+          "message" : "flow first removed from Schedules.",
+          "status" : "success"
+        }
+    http_version:
+  recorded_at: Mon, 15 Sep 2014 17:27:47 GMT
+- request:
+    method: get
+    uri: <URL>/manager?delete=true&project=Azkaban_Scheduler_Test&session.id=b0777d04-8efe-4648-9bad-fd8ef7436a65
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 302
+      message: Found
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Mon, 15 Sep 2014 17:27:47 GMT
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - close
+      Expires:
+      - Thu, 01-Jan-1970 00:00:00 GMT
+      Set-Cookie:
+      - azkaban.success.message="Project 'Azkaban_Scheduler_Test' was successfully deleted.";Path=/
+      Location:
+      - <URL>/
+      P3p:
+      - CP="NOI DSP COR NID ADMa OPTa OUR NOR"
+    body:
+      encoding: US-ASCII
+      string: ''
+    http_version:
+  recorded_at: Mon, 15 Sep 2014 17:27:47 GMT
+recorded_with: VCR 2.9.0
