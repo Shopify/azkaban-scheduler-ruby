@@ -9,7 +9,7 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Dylan Thacker-Smith"]
   spec.email         = ["Dylan.Smith@shopify.com"]
   spec.summary       = "Azkaban client that can update the schedule"
-  spec.homepage      = "https://github.com/dylanahsmith/azkaban_scheduler"
+  spec.homepage      = "https://github.com/Shopify/azkaban-scheduler-ruby"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0")
