@@ -5,7 +5,7 @@ http_interactions:
     uri: <URL>/manager
     body:
       encoding: US-ASCII
-      string: session.id=b0777d04-8efe-4648-9bad-fd8ef7436a65&action=create&name=Azkaban_Scheduler_Test&description=
+      string: session.id=bf83e117-1705-4a13-80e0-435a6f41a92a&action=create&name=Azkaban_Scheduler_Test&description=
     headers:
       Accept:
       - application/json
@@ -21,7 +21,7 @@ http_interactions:
       Server:
       - nginx
       Date:
-      - Mon, 15 Sep 2014 17:27:45 GMT
+      - Mon, 15 Sep 2014 17:55:55 GMT
       Transfer-Encoding:
       - chunked
       Connection:
@@ -32,5 +32,5 @@ http_interactions:
       encoding: US-ASCII
       string: '{"message":"Description cannot be empty.","status":"error"}'
     http_version:
-  recorded_at: Mon, 15 Sep 2014 17:27:45 GMT
+  recorded_at: Mon, 15 Sep 2014 17:55:55 GMT
 recorded_with: VCR 2.9.0

@@ -21,7 +21,7 @@ end
 VCR.configure do |c|
   c.cassette_library_dir = File.expand_path('../fixtures', __FILE__)
   c.hook_into :webmock
-  c.filter_sensitive_data("<URL>") { test_config['url'].sub(/https?:\/\//, 'http://') }
+  c.filter_sensitive_data("<HTTP_URL>") { test_config['url'].sub(/\Ahttps?:\/\//, 'http://') }
   test_config.each do |key, value|
     c.filter_sensitive_data("<#{key.upcase}>") { test_config[key] }
   end
