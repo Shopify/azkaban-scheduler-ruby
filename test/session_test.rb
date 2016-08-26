@@ -86,7 +86,7 @@ class SessionTest < Minitest::Test
     end
   end
 
-  def test_create_project_with_invalid_name
+  def test_create_project_with_missing_description
     project = AzkabanScheduler::Project.new('Azkaban_Scheduler_Test', "")
     assert_raises(AzkabanScheduler::ProjectDescriptionEmptyError) do
       VCR.use_cassette(__method__) do
