@@ -26,8 +26,7 @@ module AzkabanScheduler
     def write(io)
       Zip::OutputStream.write_buffer(io) do |out|
         @jobs.each do |name, job|
-          out.put_next_entry("#{name}.job")
-          job.write(out)
+          job.write(name, out)
         end
       end
     end

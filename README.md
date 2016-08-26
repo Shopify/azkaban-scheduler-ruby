@@ -28,10 +28,13 @@ require 'azkaban_scheduler'
 
 client = AzkabanScheduler::Client.new('https://localhost:8443')
 session = AzkabanScheduler::Session.start(client, 'admin', ENV['AZKABAN_PASSWORD'])
-
 project = AzkabanScheduler::Project.new('Demo', 'A simple project to get you started')
+
 flow_name = 'hello-world'
-project.add_job(flow_name, AzkabanScheduler::Job.new(type: 'command', command: 'echo "hello world"'))
+job = AzkabanScheduler::Job.new(type: 'command', command: '/bin/bash run')
+job.add_file('run', '/path/to/run/script')
+
+project.add_job(flow_name, job)
 begin
   session.create_project(project)
 rescue AzkabanScheduler::ProjectNotFoundError

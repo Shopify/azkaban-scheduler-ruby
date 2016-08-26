@@ -40,3 +40,20 @@ module SessionTestHelper
     @@session ||= AzkabanScheduler::Session.start(client, config['username'], config['password'])
   end
 end
+
+class IODouble < IO
+  attr_reader :current, :written
+
+  def initialize
+    @current = nil
+    @written = {}
+  end
+
+  def put_next_entry(filepath)
+    @current = filepath
+  end
+
+  def puts(content)
+    (written[current] ||= '') << content
+  end
+end
