@@ -5,7 +5,7 @@ http_interactions:
     uri: <URL>/manager
     body:
       encoding: US-ASCII
-      string: session.id=bf83e117-1705-4a13-80e0-435a6f41a92a&action=create&name=Azkaban%20Scheduler%20Test&description=description
+      string: session.id=bf83e117-1705-4a13-80e0-435a6f41a92a&action=create&name=Azkaban_Scheduler_Test&description=
     headers:
       Accept:
       - application/json
@@ -30,7 +30,7 @@ http_interactions:
       - CP="NOI DSP COR NID ADMa OPTa OUR NOR"
     body:
       encoding: US-ASCII
-      string: "{\"message\":\"Project names must start with a letter, followed by any number of letters, digits, '-' or '_'.\",\"status\":\"error\"}"
+      string: '{"message":"Description cannot be empty.","status":"error"}'
     http_version:
   recorded_at: Mon, 15 Sep 2014 17:55:55 GMT
 recorded_with: VCR 2.9.0
