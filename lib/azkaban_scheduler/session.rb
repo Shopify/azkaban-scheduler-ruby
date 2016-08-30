@@ -93,7 +93,7 @@ module AzkabanScheduler
 
     def list_flow_ids(project_name)
       result = fetch_project_flows(project_name)
-      result['flows'].map{ |flow| flow['flowId'] }
+      result.fetch('flows', []).map { |flow| flow['flowId'] }
     end
 
     def fetch_project_flows(project_name)
@@ -103,7 +103,7 @@ module AzkabanScheduler
         'project' => project_name,
       })
       response.error! unless response.kind_of?(Net::HTTPSuccess)
-      JSON.parse(response.body)
+      response.body.empty? ? {} : JSON.parse(response.body)
     end
 
     def fetch_flow_executions(project_name, flow_id, offset=0, limit=10)
