@@ -3,10 +3,17 @@ require 'json'
 
 module AzkabanScheduler
   class Client
-    def initialize(url)
+    attr_reader :http
+
+    def initialize(url, http_options = {})
       uri = URI(url)
+
       @http = Net::HTTP.new(uri.host, uri.port)
       @http.use_ssl = uri.scheme == 'https'
+
+      http_options.each do |key, value|
+        @http.public_send(:"#{key}=", value)
+      end
     end
 
     def get(path, params=nil, headers=nil)
@@ -31,7 +38,7 @@ module AzkabanScheduler
     def send_request(request, headers)
       request['Accept'] = 'application/json'
       headers.each { |name, value| request[name] = value } if headers
-      response = @http.request(request)
+      response = http.request(request)
       dump_response(response) if ENV['DUMP_AZKABAN_RESPONSES']
       response
     end
