@@ -5,7 +5,7 @@ module AzkabanScheduler
   class Client
     attr_reader :http
 
-    def initialize(url, http_options = {}, client_headers={}})
+    def initialize(url, http_options = {}, client_headers={})
       uri = URI(url)
       @client_headers = client_headers
 

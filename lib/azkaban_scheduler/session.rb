@@ -144,7 +144,7 @@ module AzkabanScheduler
       response = @client.post('/schedule', {
         'action' => 'removeSched',
         'scheduleId' => schedule_id,
-      }, session_id_cookie.merge(headers))
+      }, session_id_cookie)
       response.error! unless response.kind_of?(Net::HTTPSuccess)
       result = JSON.parse(response.body)
       unless result['status'] == 'success'
@@ -183,7 +183,7 @@ module AzkabanScheduler
         'successEmails' => Array(options[:success_emails]).join(', '),
         'notifyFailureFirst' => (!!options[:notify_failure_first]).to_s,
         'notifyFailureLast' => (!!options[:notify_failure_last]).to_s,
-      }, session_id_cookie.merge(headers))
+      }, session_id_cookie)
       response.error! unless response.kind_of?(Net::HTTPSuccess)
       result = JSON.parse(response.body)
       unless result['status'] == 'success'
