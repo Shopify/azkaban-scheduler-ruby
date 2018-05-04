@@ -5,9 +5,9 @@ module AzkabanScheduler
   class Session
     attr_accessor :id
 
-    def self.start(client, username, password)
+    def self.start(client, username, password, headers=nil)
       params = {'action' => 'login', 'username' => username, 'password' => password}
-      response = client.post('/', params)
+      response = client.post('/', params, headers)
       response.error! unless response.kind_of?(Net::HTTPSuccess)
       result = JSON.parse(response.body)
       unless result["status"] == "success"
@@ -25,13 +25,16 @@ module AzkabanScheduler
       @id = id
     end
 
-    def create_project(project)
-      response = @client.post('/manager', {
-        'session.id' => @id,
-        'action' => 'create',
-        'name' => project.name,
-        'description' => project.description,
-      })
+    def create_project(project, headers=nil)
+      response = @client.post('/manager',
+        {
+          'session.id' => @id,
+          'action' => 'create',
+          'name' => project.name,
+          'description' => project.description,
+        },
+        headers
+      )
       response.error! unless response.kind_of?(Net::HTTPSuccess)
       result = JSON.parse(response.body)
       if result['status'] != 'success'
@@ -48,13 +51,17 @@ module AzkabanScheduler
       result
     end
 
-    def upload_project(project)
-      response = @client.multipart_post('/manager', {
-        'session.id' => @id,
-        'ajax' => 'upload',
-        'project' => project.name,
-        'file' => UploadIO.new(project.build, 'application/zip', 'file.zip'),
-      })
+    def upload_project(project, headers=nil)
+      response = @client.multipart_post(
+        '/manager',
+        {
+          'session.id' => @id,
+          'ajax' => 'upload',
+          'project' => project.name,
+          'file' => UploadIO.new(project.build, 'application/zip', 'file.zip'),
+        },
+        headers
+      )
       response.error! unless response.kind_of?(Net::HTTPSuccess)
       result = JSON.parse(response.body)
       if error_message = result['error']
@@ -68,12 +75,16 @@ module AzkabanScheduler
       result
     end
 
-    def delete_project(project_name)
-      response = @client.get('/manager', {
-        'session.id' => @id,
-        'project' => project_name,
-        'delete' => 'true',
-      })
+    def delete_project(project_name, headers=nil)
+      response = @client.get(
+        '/manager',
+        {
+          'session.id' => @id,
+          'project' => project_name,
+          'delete' => 'true',
+        },
+        headers
+      )
       response.error! unless response.kind_of?(Net::HTTPSuccess) || response.kind_of?(Net::HTTPRedirection)
       cookies = response_cookies(response)
       unless cookies['azkaban.success.message']
@@ -86,35 +97,43 @@ module AzkabanScheduler
       true
     end
 
-    def get_project_id(project_name)
-      result = fetch_project_flows(project_name)
+    def get_project_id(project_name, headers=nil)
+      result = fetch_project_flows(project_name, headers)
       result['projectId']
     end
 
-    def list_flow_ids(project_name)
-      result = fetch_project_flows(project_name)
+    def list_flow_ids(project_name, headers=nil)
+      result = fetch_project_flows(project_name, headers)
       result.fetch('flows', []).map { |flow| flow['flowId'] }
     end
 
-    def fetch_project_flows(project_name)
-      response = @client.get('/manager', {
-        'session.id' => @id,
-        'ajax' => 'fetchprojectflows',
-        'project' => project_name,
-      })
+    def fetch_project_flows(project_name, headers=nil)
+      response = @client.get(
+        '/manager',
+        {
+          'session.id' => @id,
+          'ajax' => 'fetchprojectflows',
+          'project' => project_name,
+        },
+        headers
+      )
       response.error! unless response.kind_of?(Net::HTTPSuccess)
       response.body.empty? ? {} : JSON.parse(response.body)
     end
 
-    def fetch_flow_executions(project_name, flow_id, offset=0, limit=10)
-      response = @client.get('/manager', {
-        'session.id' => @id,
-        'ajax' => 'fetchFlowExecutions',
-        'project' => project_name,
-        'flow' => flow_id,
-        'start' => offset,
-        'length' => limit,
-      })
+    def fetch_flow_executions(project_name, flow_id, offset=0, limit=10, headers=nil)
+      response = @client.get(
+        '/manager',
+        {
+          'session.id' => @id,
+          'ajax' => 'fetchFlowExecutions',
+          'project' => project_name,
+          'flow' => flow_id,
+          'start' => offset,
+          'length' => limit,
+        },
+        headers
+      )
       response.error! unless response.kind_of?(Net::HTTPSuccess)
       JSON.parse(response.body)
     end
@@ -126,11 +145,11 @@ module AzkabanScheduler
       result['items'] || []
     end
 
-    def remove_schedule(schedule_id)
+    def remove_schedule(schedule_id, headers={})
       response = @client.post('/schedule', {
         'action' => 'removeSched',
         'scheduleId' => schedule_id,
-      }, session_id_cookie)
+      }, session_id_cookie.merge(headers))
       response.error! unless response.kind_of?(Net::HTTPSuccess)
       result = JSON.parse(response.body)
       unless result['status'] == 'success'
@@ -141,15 +160,15 @@ module AzkabanScheduler
       true
     end
 
-    def remove_all_schedules(project_name)
+    def remove_all_schedules(project_name, headers={})
       list_schedules.each do |schedule|
         next unless schedule['projectname'] == project_name
         schedule_id = schedule['scheduleid']
-        remove_schedule(schedule_id)
+        remove_schedule(schedule_id, headers)
       end
     end
 
-    def post_schedule(project_id, project_name, flow, start_time, options={})
+    def post_schedule(project_id, project_name, flow, start_time, options={}, headers={})
       response = @client.post('/schedule', {
         'ajax' => 'scheduleFlow',
         'project' => project_name,
@@ -169,7 +188,7 @@ module AzkabanScheduler
         'successEmails' => Array(options[:success_emails]).join(', '),
         'notifyFailureFirst' => (!!options[:notify_failure_first]).to_s,
         'notifyFailureLast' => (!!options[:notify_failure_last]).to_s,
-      }, session_id_cookie)
+      }, session_id_cookie.merge(headers))
       response.error! unless response.kind_of?(Net::HTTPSuccess)
       result = JSON.parse(response.body)
       unless result['status'] == 'success'
