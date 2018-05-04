@@ -5,7 +5,7 @@ module AzkabanScheduler
   class Client
     attr_reader :http
 
-    def initialize(url, http_options = {}, client_headers=nil)
+    def initialize(url, http_options = {}, client_headers={}})
       uri = URI(url)
       @client_headers = client_headers
 
@@ -17,19 +17,19 @@ module AzkabanScheduler
       end
     end
 
-    def get(path, params=nil, headers=nil)
+    def get(path, params=nil, headers={})
       path += "?#{URI.encode_www_form(params)}" if params
       req = Net::HTTP::Get.new(path)
       send_request(req, @client_headers.merge(headers))
     end
 
-    def post(path, params=nil, headers=nil)
+    def post(path, params=nil, headers={})
       req = Net::HTTP::Post.new(path)
       req.set_form_data(params) if params
       send_request(req, @client_headers.merge(headers))
     end
 
-    def multipart_post(path, params, headers=nil)
+    def multipart_post(path, params, headers={})
       req = Net::HTTP::Post::Multipart.new(path, params)
       send_request(req, @client_headers.merge(headers))
     end
