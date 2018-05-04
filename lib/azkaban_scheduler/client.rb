@@ -5,8 +5,9 @@ module AzkabanScheduler
   class Client
     attr_reader :http
 
-    def initialize(url, http_options = {})
+    def initialize(url, http_options = {}, client_headers=nil)
       uri = URI(url)
+      @client_headers = client_headers
 
       @http = Net::HTTP.new(uri.host, uri.port)
       @http.use_ssl = uri.scheme == 'https'
@@ -19,24 +20,25 @@ module AzkabanScheduler
     def get(path, params=nil, headers=nil)
       path += "?#{URI.encode_www_form(params)}" if params
       req = Net::HTTP::Get.new(path)
-      send_request(req, headers)
+      send_request(req, @client_headers.merge(headers))
     end
 
     def post(path, params=nil, headers=nil)
       req = Net::HTTP::Post.new(path)
       req.set_form_data(params) if params
-      send_request(req, headers)
+      send_request(req, @client_headers.merge(headers))
     end
 
     def multipart_post(path, params, headers=nil)
       req = Net::HTTP::Post::Multipart.new(path, params)
-      send_request(req, headers)
+      send_request(req, @client_headers.merge(headers))
     end
 
     private
 
     def send_request(request, headers)
       request['Accept'] = 'application/json'
+      headers = @client_headers.merge(headers)
       headers.each { |name, value| request[name] = value } if headers
       response = http.request(request)
       dump_response(response) if ENV['DUMP_AZKABAN_RESPONSES']
