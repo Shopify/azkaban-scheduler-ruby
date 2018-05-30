@@ -10,6 +10,7 @@ module AzkabanScheduler
       @client_headers = client_headers
 
       @http = Net::HTTP.new(uri.host, uri.port)
+      @http.read_timeout = 180
       @http.use_ssl = uri.scheme == 'https'
 
       http_options.each do |key, value|
